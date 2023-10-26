@@ -5,9 +5,7 @@ const app = express();
 app.use(express.json());
 
 // import morgan for logging
-app.use(
-  morgan(":method :url :status :res[content-length] - :response-time ms")
-);
+app.use(morgan("tiny"));
 
 // persons data
 let persons = [
