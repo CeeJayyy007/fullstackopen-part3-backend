@@ -76,26 +76,33 @@ const generateId = () => {
 
 // create new person record
 app.post("/api/persons", (request, response) => {
-  const body = request.body;
+  const { name, number } = request.body;
 
   // check for name
-  if (!body.name) {
+  if (!name) {
     return response.status(400).json({
       error: "name missing",
     });
   }
 
   // check for number
-  if (!body.number) {
+  if (!number) {
     return response.status(400).json({
       error: "number missing",
     });
   }
 
+  // validate that name is unique
+  const existingName = persons.find((person) => person.name === name);
+
+  if (existingName) {
+    return response.status(400).json({ message: "name must be unique" });
+  }
+
   // create person object
   const person = {
-    name: body.name,
-    number: body.number,
+    name: name,
+    number: number,
     id: generateId(),
   };
 
