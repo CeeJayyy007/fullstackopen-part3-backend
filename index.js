@@ -1,8 +1,7 @@
 const express = require("express");
 const app = express();
 
-app.use(express.json());
-
+// persons data
 let persons = [
   [
     {
@@ -28,7 +27,7 @@ let persons = [
   ],
 ];
 
-// get notes
+// get persons resource
 app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
