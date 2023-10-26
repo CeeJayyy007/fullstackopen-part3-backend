@@ -67,6 +67,43 @@ app.get("/api/info", (request, response) => {
   }
 });
 
+// generate random id
+const generateId = () => {
+  const min = 100000;
+  const max = 999999;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+// create new person record
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  // check for name
+  if (!body.name) {
+    return response.status(400).json({
+      error: "name missing",
+    });
+  }
+
+  // check for number
+  if (!body.number) {
+    return response.status(400).json({
+      error: "number missing",
+    });
+  }
+
+  // create person object
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  };
+
+  persons = persons.concat(person);
+
+  response.json(person);
+});
+
 // delete person
 app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
