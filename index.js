@@ -4,8 +4,13 @@ const app = express();
 
 app.use(express.json());
 
-// import morgan for logging
-app.use(morgan("tiny"));
+morgan.token("type", function (req, res) {
+  return JSON.stringify(req.body);
+});
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :type")
+);
 
 // persons data
 let persons = [
