@@ -72,41 +72,37 @@ const generateId = () => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-// create new person record
+// add person
 app.post("/api/persons", (request, response) => {
-  const { name, number } = request.body;
+  const body = request.body;
 
-  // check for name
-  if (!name) {
+  if (body.name === undefined) {
     return response.status(400).json({
       error: "name missing",
     });
   }
 
-  // check for number
-  if (!number) {
+  if (body.number === undefined) {
     return response.status(400).json({
       error: "number missing",
     });
   }
 
-  // validate that name is unique
-  const existingName = persons.find((person) => person.name === name);
+  //  validate that name is unique
+  //   const existingName = persons.find((person) => person.name === name);
 
-  if (existingName) {
-    return response.status(400).json({ message: "name must be unique" });
-  }
+  //   if (existingName) {
+  //     return response.status(400).json({ message: "name must be unique" });
+  //   }
 
-  // create person object
-  const person = {
-    name: name,
-    number: number,
-    id: generateId(),
-  };
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
 
-  persons = persons.concat(person);
-
-  response.json(person);
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
 });
 
 // delete person
