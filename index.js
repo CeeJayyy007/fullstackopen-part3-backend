@@ -9,10 +9,6 @@ morgan.token("type", function (req, res) {
   return JSON.stringify(req.body);
 });
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
-};
-
 // models
 const Person = require("./models/phonebook");
 
@@ -107,11 +103,20 @@ app.post("/api/persons", (request, response) => {
 
 // delete person
 app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((person) => person.id !== id);
-
-  response.status(204).end();
+  Person.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(500).end();
+    });
 });
+
+// handler of requests with unknown endpoint
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
