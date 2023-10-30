@@ -4,7 +4,7 @@
 
 ## Scope
 
-> This is the Full Stack Open 2023 [Part 3](https://github.com/CeeJayyy007/fullstackopen/tree/main/part2) Phonebook backend exercise
+> This is the Full Stack Open 2023 [Part 3](https://github.com/CeeJayyy007/fullstackopen/tree/main/part3) Phonebook backend exercise
 
 ### Link to online application:
 
