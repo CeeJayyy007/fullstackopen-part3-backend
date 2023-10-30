@@ -61,12 +61,21 @@ app.get("/api/info", (request, response) => {
   }
 });
 
-// generate random id
-const generateId = () => {
-  const min = 100000;
-  const max = 999999;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+// update person record
+app.put("/api/persons/:id", (request, response, next) => {
+  const body = request.body;
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  };
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then((updatedPerson) => {
+      response.json(updatedPerson);
+    })
+    .catch((error) => next(error));
+});
 
 // add person
 app.post("/api/persons", (request, response) => {
@@ -83,13 +92,6 @@ app.post("/api/persons", (request, response) => {
       error: "number missing",
     });
   }
-
-  //  validate that name is unique
-  //   const existingName = persons.find((person) => person.name === name);
-
-  //   if (existingName) {
-  //     return response.status(400).json({ message: "name must be unique" });
-  //   }
 
   const person = new Person({
     name: body.name,
