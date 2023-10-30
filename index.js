@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -52,7 +53,7 @@ const getTorontoTimeISOString = () => {
 app.get("/api/info", (request, response, next) => {
   Person.find({})
     .then((people) => {
-      personCount = people.length;
+      const personCount = people.length;
       const message = `<p>Phonebook has info for ${personCount} people</p>`;
       const torontoTimeString = getTorontoTimeISOString();
       if (personCount) {
